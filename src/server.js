@@ -33,7 +33,8 @@ export function setupServer() {
    });
   });
 
-  app.get("/api/contacts/:contactId", async (req, res) => {
+  // eslint-disable-next-line no-unused-vars
+  app.get("/api/contacts/:contactId", async (req, res, next) => {
     const {contactId} = req.params;
     const data = await getContactById(contactId);
 
