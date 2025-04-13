@@ -5,7 +5,11 @@ export const contactAddSchema = Joi.object({
   phoneNumber: Joi.string().min(3).max(20).required(),
   email: Joi.string().min(3).max(20),
   isFavourite: Joi.boolean(),
-  contactType: Joi.string().min(3).max(20).valid('work', 'home', 'personal'),
+  contactType: Joi.string()
+    .min(3)
+    .max(20)
+    .valid('work', 'home', 'personal')
+    .required(),
 });
 
 export const contactUpdateSchema = Joi.object({

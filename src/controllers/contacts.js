@@ -78,3 +78,7 @@ export const deleteContactController = async (req, res) => {
 
   res.status(204).send();
 };
+
+export const handleMissingIdController = async () => {
+  throw createHttpError(400, 'Contact ID is missing');
+};

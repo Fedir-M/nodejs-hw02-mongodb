@@ -7,6 +7,7 @@ import {
   createContactController,
   updateContactController,
   deleteContactController,
+  handleMissingIdController,
 } from '../controllers/contacts.js';
 
 import {
@@ -25,6 +26,8 @@ contactsRouter.get(
   isValid,
   ctrlWrapper(getContactsByIdController),
 );
+
+contactsRouter.get('/$', ctrlWrapper(handleMissingIdController));
 
 contactsRouter.post(
   '/',
