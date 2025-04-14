@@ -9,7 +9,7 @@ export const isValid = (req, res, next) => {
   }
 
   if (!isValidObjectId(contactId)) {
-    return next(createHttpError(404, `${contactId} not valid ID`));
+    return next(createHttpError(400, `${contactId} not valid ID`));
   }
   next();
 };
