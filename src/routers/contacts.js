@@ -8,16 +8,19 @@ import {
   updateContactController,
   deleteContactController,
   handleMissingIdController,
-} from '../controllers/contacts.js';
+} from '../controllers/contactsControllers.js';
 
 import {
   contactAddSchema,
   contactUpdateSchema,
 } from '../validation/contactsValidationSchemes.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
 import { isValid } from '../middlewares/isValidID.js';
 
 const contactsRouter = Router();
+
+contactsRouter.use(authenticate);
 
 contactsRouter.get('/', ctrlWrapper(getContactsController));
 
