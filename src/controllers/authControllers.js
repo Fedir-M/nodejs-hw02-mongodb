@@ -19,12 +19,18 @@ const setupSession = (res, session) => {
 };
 
 export const registerController = async (req, res) => {
-  await registerUser(req.body);
+  const newUser = await registerUser(req.body);
+  // eslint-disable-next-line no-unused-vars
+  const { password, ...newUserWithoutPassword } = newUser.toObject
+    ? newUser.toObject()
+    : newUser;
 
   res.status(201).json({
     status: 201,
-    message: 'Successfully register user',
+    message: 'Successfully registered a user!',
+    data: newUserWithoutPassword,
   });
+  console.log(newUserWithoutPassword);
 };
 
 export const loginController = async (req, res) => {
