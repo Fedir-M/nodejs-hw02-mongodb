@@ -1,3 +1,4 @@
+import { v2 as cloudinary } from 'cloudinary';
 import ContactsCollection from '../db/contactsModel.js';
 
 import { sortList } from '../constants/index.js';
@@ -72,14 +73,14 @@ export const updateContact = async (id, payload, userId, file) => {
     }
     if (contact.photo) {
       const publicId = contact.photo.split('/').pop().split('.')[0];
-      await saveFileToCloudinary.v2.uploader.destroy(`contacts/${publicId}`);
+      await cloudinary.uploader.destroy(`contacts/${publicId}`);
     }
     updatePayload.photo = await saveFileToCloudinary(file);
   }
 
   const updatedContact = await ContactsCollection.findOneAndUpdate(
     { _id: id, userId },
-    payload,
+    updatePayload,
     { new: true },
   );
   return updatedContact;

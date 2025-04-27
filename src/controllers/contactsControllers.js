@@ -10,8 +10,6 @@ import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseContactFilterParams } from '../utils/filters/parseContactFilterParams.js';
 import createHttpError from 'http-errors';
-import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
-import { upload } from '../middlewares/upload.js';
 
 export const getContactsController = async (req, res) => {
   const paginationParams = parsePaginationParams(req.query);
@@ -42,19 +40,16 @@ export const getContactsByIdController = async (req, res) => {
 
   res.json({
     status: 200,
-    message: 'Successfully found contact with id {contactId}!',
+    message: `Successfully found contact with id ${contactId}!`,
     data,
   });
 };
 
 export const createContactController = async (req, res) => {
   const userId = req.user._id;
-  const photo = req.file;
+  console.log('checking req.file -->', req.file);
 
-  console.log(photo);
-  // const photoUrl = await upload(photo);
-
-  const newContact = await createContact(req.body, userId);
+  const newContact = await createContact(req.body, userId, req.file);
 
   res.status(201).json({
     status: 201,

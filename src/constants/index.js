@@ -14,7 +14,7 @@ export const SMTP = {
 export const TEMP_UPLOAD_DIR = path.join(process.cwd(), 'temp');
 // если проект находится в /home/user/my-project, то process.cwd() вернёт /home/user/my-project.
 //path.join(process.cwd(), 'temp'); // Результат: /home/user/my-project/temp
-export const UPLOAD_DIR = path.join(process.cwd(), 'uploads');
+// export const UPLOAD_DIR = path.join(process.cwd(), 'uploads');
 
 export const CLOUDINARY = {
   CLOUD_NAME: 'CLOUNDINARY_CLOUD_NAME',
