@@ -24,15 +24,14 @@ cloudinary.config({
 
 export const saveFileToCloudinary = async (file) => {
   try {
-    console.log('Uploading file to Cloudinary:', file.path);
     await fs.access(file.path);
     const response = await cloudinary.uploader.upload(file.path, {
       folder: 'contacts-photos',
       resource_type: 'auto',
       transformation: [{ quality: 'auto' }, { width: 600, crop: 'scale' }],
     });
+    console.log('File uploaded, secure_url-->', response);
     await fs.unlink(file.path).catch(() => {});
-    console.log('File uploaded, secure_url:', response.secure_url);
     return response.secure_url;
   } catch (error) {
     await fs.unlink(file.path).catch(() => {});
