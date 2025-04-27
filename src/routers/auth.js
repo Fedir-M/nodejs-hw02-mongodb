@@ -6,12 +6,15 @@ import { validateBody } from '../utils/validateBody.js';
 import {
   authRegisterScheme,
   authLoginSchema,
+  requestResetEmailSchema,
+  resetPasswordSchema,
 } from '../validation/authValidationSchemes.js';
 import {
   registerController,
   loginController,
   refreshController,
   logoutController,
+  requestResetEmailController,
 } from '../controllers/authControllers.js';
 
 const authRouter = Router();
@@ -32,4 +35,15 @@ authRouter.post('/refresh', ctrlWrapper(refreshController));
 
 authRouter.post('/logout', ctrlWrapper(logoutController));
 
+authRouter.post(
+  '/send-reset-email',
+  validateBody(requestResetEmailSchema),
+  ctrlWrapper(requestResetEmailController),
+);
+
+authRouter.post(
+  '/reset-pwd',
+  validateBody(resetPasswordSchema),
+  ctrlWrapper(requestResetEmailController),
+);
 export default authRouter;
