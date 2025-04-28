@@ -1,6 +1,9 @@
 import jwt from 'jsonwebtoken';
-
 import bcrypt from 'bcrypt';
+import handlebars from 'handlebars';
+import path from 'node:path';
+import fs from 'node:fs/promises';
+
 import { randomBytes } from 'node:crypto';
 import createHttpError from 'http-errors';
 import UserCollection from '../db/UserModel.js';
@@ -11,7 +14,7 @@ import {
 } from '../constants/authConst.js';
 import { getEnvVar } from '../utils/getEnvVar.js';
 import { sendEmail } from '../utils/sendMail.js';
-import { SMTP } from '../constants/index.js';
+import { SMTP, TEMPLATES_DIR } from '../constants/index.js';
 
 const createSession = () => {
   const accessToken = randomBytes(30).toString('base64');
@@ -89,11 +92,11 @@ export const refreshUser = async ({ refreshToken, sessionId }) => {
   });
 };
 
-//* =========== logoutUser =========================
+//* ============================= logoutUser =========================
 export const logoutUser = (sessionId) =>
   SessionCollection.deleteOne({ _id: sessionId });
 
-//* =========== requestResetToken =========================
+//* =========================== requestResetToken =========================
 export const requestResetToken = async (email) => {
   const user = await UserCollection.findOne({ email });
   if (!user) {
@@ -119,11 +122,28 @@ export const requestResetToken = async (email) => {
   //   html: `<p>Click <a href="${resetToken}">here</a> to reset your password!</p>`,
   // });
   try {
+    const resetPasswordTemplatePath = path.join(
+      TEMPLATES_DIR,
+      'reset-password-email.html',
+    );
+
+    const templateSource = (
+      await fs.readFile(resetPasswordTemplatePath)
+    ).toString();
+
+    const template = handlebars.compile(templateSource);
+    const html = template({
+      name: user.name,
+      resetLink: `${getEnvVar(
+        'APP_DOMAIN',
+      )}/reset-password?token=${resetToken}`,
+    });
+
     await sendEmail({
       from: getEnvVar(SMTP.SMTP_FROM),
       to: email,
       subject: 'Reset your password',
-      html: `<p>Click <a href="${resetToken}">here</a> to reset your password!</p>`,
+      html,
     });
   } catch (err) {
     console.error('Email sending in requestResetToken - failed:', err);
@@ -136,7 +156,7 @@ export const requestResetToken = async (email) => {
   //? should I use this line in my code?
   // return { message: 'Reset password email has been successfully sent.' };
 };
-
+//* ======================= resetPassword =========================
 export const resetPassword = async (payload) => {
   let entries;
 

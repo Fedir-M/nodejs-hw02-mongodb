@@ -11,6 +11,8 @@ export const SMTP = {
   JWT_SECRET: 'JWT_SECRET',
 };
 
+export const TEMPLATES_DIR = path.join(process.cwd(), 'src', 'templates');
+
 export const TEMP_UPLOAD_DIR = path.join(process.cwd(), 'src', 'temp');
 // если проект находится в /home/user/my-project, то process.cwd() вернёт /home/user/my-project.
 //path.join(process.cwd(), 'temp'); // Результат: /home/user/my-project/temp
