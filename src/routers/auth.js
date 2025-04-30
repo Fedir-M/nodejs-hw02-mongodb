@@ -15,6 +15,7 @@ import {
   refreshController,
   logoutController,
   requestResetEmailController,
+  resetPasswordController,
 } from '../controllers/authControllers.js';
 
 const authRouter = Router();
@@ -44,6 +45,6 @@ authRouter.post(
 authRouter.post(
   '/reset-pwd',
   validateBody(resetPasswordSchema),
-  ctrlWrapper(requestResetEmailController),
+  ctrlWrapper(resetPasswordController),
 );
 export default authRouter;
