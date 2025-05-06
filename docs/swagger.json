@@ -21,7 +21,7 @@
       "description": "Operations connecting with my contacts"
     },
     {
-      "name": "Auth",
+      "name": "auth",
       "description": "Auth operations"
     }
   ],
@@ -397,7 +397,7 @@
     "/contacts/{id}": {
       "get": {
         "tags": [
-          "сontacts"
+          "contacts"
         ],
         "summary": "Retrieve a contact by ID",
         "operationId": "getContactById",

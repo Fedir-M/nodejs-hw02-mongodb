@@ -9,7 +9,7 @@ info:
 tags:
   - name: contacts
     description: Operations connecting with my contacts
-  - name: Auth
+  - name: auth
     description: Auth operations
 servers:
   - url: https://api.mycontacts.com
