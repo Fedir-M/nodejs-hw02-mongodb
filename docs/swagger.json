@@ -76,7 +76,7 @@
             },
             "required": false,
             "description": "The field to sort by (only 'name' is supported).",
-            "example": "Bob"
+            "example": "name"
           },
           {
             "in": "query",
