@@ -106,7 +106,7 @@
             },
             "required": false,
             "description": "Filter contacts by type.",
-            "example": "personal, work, home"
+            "example": "personal"
           },
           {
             "in": "query",
