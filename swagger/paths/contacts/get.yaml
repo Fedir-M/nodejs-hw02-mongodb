@@ -1,0 +1,127 @@
+tags:
+  - contacts
+summary: Retrieve a list of contacts
+operationId: getContacts
+description: Retrieves a paginated list of contacts for the authenticated user. Supports optional query parameters for pagination, sorting, and filtering by contact type or favorite status.
+security:
+  - bearerAuth: []
+parameters:
+  - in: query
+    name: page
+    schema:
+      type: integer
+      minimum: 1
+      default: 1
+    required: false
+    description: The page number for pagination.
+    example: 1, 2, 3
+  - in: query
+    name: perPage
+    schema:
+      type: integer
+      minimum: 1
+      default: 10
+    required: false
+    description: The number of contacts per page.
+    example: 10, 20
+  - in: query
+    name: sortBy
+    schema:
+      type: string
+      enum: [name]
+      default: name
+    required: false
+    description: The field to sort by (only 'name' is supported).
+    example: Bob
+  - in: query
+    name: sortOrder
+    schema:
+      type: string
+      enum: [asc, desc]
+      default: asc
+    required: false
+    description: The sort order (ascending or descending).
+    example: asc
+  - in: query
+    name: contactType
+    schema:
+      type: string
+      enum: [personal, work, home]
+    required: false
+    description: Filter contacts by type.
+    example: personal
+  - in: query
+    name: isFavourite
+    schema:
+      type: boolean
+    required: false
+    description: Filter contacts by favorite status.
+    example: true
+responses:
+  '200':
+    description: Contacts successfully retrieved
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully found contacts!
+            data:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: ../../components/schemas/contact.yaml
+                page:
+                  type: integer
+                  example: 1
+                perPage:
+                  type: integer
+                  example: 10
+                totalItems:
+                  type: integer
+                  example: 25
+                totalPages:
+                  type: integer
+                  example: 3
+                hasPreviousPage:
+                  type: boolean
+                  example: false
+                hasNextPage:
+                  type: boolean
+                  example: true
+          required:
+            - status
+            - message
+            - data
+  '400':
+    description: Invalid query parameters
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 400
+            message:
+              type: string
+              example: BadRequestError
+            data:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: Invalid page or perPage value
+          required:
+            - status
+            - message
+            - data
+  '401':
+    $ref: ../../components/responses/401.yaml

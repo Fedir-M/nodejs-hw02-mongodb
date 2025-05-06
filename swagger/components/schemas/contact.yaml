@@ -1,0 +1,39 @@
+type: object
+properties:
+  _id:
+    type: string
+    example: 680e8cc96c3d5cf65c53314c
+  name:
+    type: string
+    example: Michael NotHidden
+  phoneNumber:
+    type: string
+    example: +1112233
+  email:
+    type: string
+    example: michael@example.com
+  contactType:
+    type: string
+    example: personal
+  userId:
+    type: string
+    example: 680be1cd4f1b271258c1c1ac
+  photo:
+    type: string
+    # nullable: true
+    example: https://res.cloudinary.com/dlhomxhqd/image/upload/v1745784098/contacts-photos/vnro8p9dmnmiftqae6dk.png
+  isFavourite:
+    type: boolean
+    example: false
+  createdAt:
+    type: string
+    format: date-time
+    example: 2023-10-01T12:00:00.000Z
+  updatedAt:
+    type: string
+    format: date-time
+    example: 2023-10-01T12:00:00.000Z
+required:
+  - status
+  - message
+  - data

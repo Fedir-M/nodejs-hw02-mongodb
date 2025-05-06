@@ -1,0 +1,39 @@
+tags:
+  - сontacts
+summary: Retrieve a contact by ID
+operationId: getContactById
+description: Retrieves a specific contact by its ID for the authenticated user. The contact must belong to the user making the request. Returns the contact details if found, or a 404 error if the contact does not exist or does not belong to the user.
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: id
+    schema:
+      type: string
+      pattern: '^[0-9a-fA-F]{24}$'
+      #* способ указать что это MongoDB ObjectId.
+      # ^[0-9a-fA-F]{24}$ описывает строку, которая:
+      # ^: Начинается с начала строки.
+      # [0-9a-fA-F]: Содержит только цифры 0-9 и буквы a-f или A-F (шестнадцатеричные символы).
+      # {24}: Ровно 24 символа.
+      # $: Заканчивается в конце строки.
+      #     required: true
+      #     description: The ID of the contact to retrieve (valid to MongoDB ObjectId).
+responses:
+  '200':
+    description: Contact successfully retrieved
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully found contact with id 680e8cc96c3d5cf65c53314c!
+            data:
+              $ref: ../../../components/schemas/contact.yaml
+  '404':
+    $ref: ../../../components/responses/404.yaml

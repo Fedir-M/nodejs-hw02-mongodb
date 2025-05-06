@@ -23,3 +23,5 @@ export const CLOUDINARY = {
   API_KEY: 'CLOUNDINARY_API_KEY',
   API_SECRET: 'CLOUNDINARY_API_SECRET',
 };
+
+export const SWAGGER_PATH = path.join(process.cwd(), 'docs', 'swagger.json');

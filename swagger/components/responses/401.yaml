@@ -1,0 +1,22 @@
+description: Unauthorized
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 401
+        message:
+          type: string
+          example: UnauthorizedError
+        data:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Missing or invalid Bearer token
+      required:
+        - status
+        - message
+        - data
