@@ -1,0 +1,117 @@
+tags:
+  - auth
+summary: Register a new user
+operationId: registerUser
+description: Registers a new user with the provided name, email, and password. Returns the created user's data without the password field.
+security: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            example: John Doe
+            description: The user's name
+          email:
+            type: string
+            format: email
+            example: user@example.com
+            description: The user's email address
+          password:
+            type: string
+            minLength: 6
+            example: Password123!
+            description: The user's password (minimum 6 characters)
+        required:
+          - name
+          - email
+          - password
+responses:
+  '201':
+    description: User successfully registered
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: Successfully registered a user!
+            data:
+              type: object
+              properties:
+                _id:
+                  type: string
+                  example: 12345
+                  description: Unique identifier of the user
+                name:
+                  type: string
+                  example: John Doe
+                  description: The user's name
+                email:
+                  type: string
+                  format: email
+                  example: user@example.com
+                  description: The user's email address
+                createdAt:
+                  type: string
+                  format: date-time
+                  example: 2025-04-24T12:00:00Z
+                  description: Timestamp when the user was created
+                updatedAt:
+                  type: string
+                  format: date-time
+                  example: 2025-04-24T12:00:00Z
+                  description: Timestamp when the user was last updated
+          required:
+            - status
+            - message
+            - data
+  '400':
+    description: Invalid request body
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 400
+            message:
+              type: string
+              example: BadRequestError
+            data:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: Validation failed
+          required:
+            - status
+            - message
+            - data
+  '409':
+    description: Email already in use
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 409
+            message:
+              type: string
+              example: Email in use
+            data:
+              type: object
+          required:
+            - status
+            - message
+            - data
