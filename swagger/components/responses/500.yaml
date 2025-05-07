@@ -1,0 +1,26 @@
+description: Contact not found
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 500
+        message:
+          type: string
+          example: InternalServerError
+        data:
+          type: object
+          properties:
+            errorType:
+              type: string
+              example: general
+              description: Type of error ('upload' for file upload issues, 'general' for other server errors)
+            message:
+              type: string
+              example: Internal server error
+      required:
+        - status
+        - message
+        - data

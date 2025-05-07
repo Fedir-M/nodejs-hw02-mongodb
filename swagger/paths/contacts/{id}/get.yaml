@@ -35,5 +35,9 @@ responses:
               example: Successfully found contact with id 680e8cc96c3d5cf65c53314c!
             data:
               $ref: ../../../components/schemas/contact.yaml
+  '401':
+    $ref: ../../../components/responses/401.yaml
   '404':
     $ref: ../../../components/responses/404.yaml
+  '500':
+    $ref: ../../../components/responses/500.yaml

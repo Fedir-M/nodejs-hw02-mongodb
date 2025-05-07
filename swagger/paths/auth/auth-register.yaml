@@ -115,3 +115,5 @@ responses:
             - status
             - message
             - data
+  '500':
+    $ref: ../../components/responses/500.yaml

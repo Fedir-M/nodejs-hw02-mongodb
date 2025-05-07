@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "https://api.mycontacts.com",
+      "url": "https://nodejs-hw02-mongodb.onrender.com",
       "description": "Local development server. API server (placeholder for documentation)."
     }
   ],
@@ -216,6 +216,9 @@
           },
           "401": {
             "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       },
@@ -279,6 +282,7 @@
                   },
                   "photo": {
                     "type": "string",
+                    "format": "binary",
                     "description": "An optional photo file for the contact (image file, e.g., JPEG, PNG, max size depends on server configuration)."
                   }
                 },
@@ -358,7 +362,7 @@
             "$ref": "#/components/responses/401"
           },
           "500": {
-            "description": "Server error during file upload",
+            "description": "Server error during file upload or internal server error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -375,6 +379,11 @@
                     "data": {
                       "type": "object",
                       "properties": {
+                        "errorType": {
+                          "type": "string",
+                          "example": "upload",
+                          "description": "Type of error ('upload' for file upload issues, 'general' for other server errors)"
+                        },
                         "message": {
                           "type": "string",
                           "example": "Failed to upload file to Cloudinary"
@@ -441,8 +450,14 @@
               }
             }
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       },
@@ -517,6 +532,7 @@
                   },
                   "photo": {
                     "type": "string",
+                    "format": "binary",
                     "description": "An optional photo file for the contact (image file, JPEG, PNG, max size depends on server configuration)."
                   }
                 }
@@ -541,66 +557,7 @@
                       "example": "Successfully patched a contact!"
                     },
                     "data": {
-                      "type": "object",
-                      "properties": {
-                        "_id": {
-                          "type": "string",
-                          "example": "680e8cc96c3d5cf65c53314c"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "Michael Updated"
-                        },
-                        "phoneNumber": {
-                          "type": "string",
-                          "example": 1112233
-                        },
-                        "email": {
-                          "type": "string",
-                          "example": "michael@example.com"
-                        },
-                        "contactType": {
-                          "type": "string",
-                          "enum": [
-                            "work",
-                            "home",
-                            "personal"
-                          ],
-                          "example": "work"
-                        },
-                        "userId": {
-                          "type": "string",
-                          "example": "680be1cd4f1b271258c1c1ac"
-                        },
-                        "photo": {
-                          "type": "string",
-                          "example": "https://res.cloudinary.com/dlhomxhqd/image/upload/v1745784098/contacts-photos/vnro8p9dmnmiftqae6dk.png"
-                        },
-                        "isFavourite": {
-                          "type": "boolean",
-                          "example": true
-                        },
-                        "createdAt": {
-                          "type": "string",
-                          "format": "date-time",
-                          "example": "2023-10-01T12:00:00.000Z"
-                        },
-                        "updatedAt": {
-                          "type": "string",
-                          "format": "date-time",
-                          "example": "2023-10-01T12:30:00.000Z"
-                        }
-                      },
-                      "required": [
-                        "_id",
-                        "name",
-                        "phoneNumber",
-                        "contactType",
-                        "userId",
-                        "isFavourite",
-                        "createdAt",
-                        "updatedAt"
-                      ]
+                      "$ref": "#/components/schemas/contact"
                     }
                   },
                   "required": [
@@ -651,6 +608,9 @@
           },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       },
@@ -720,6 +680,9 @@
           },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -887,6 +850,9 @@
                 }
               }
             }
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -1034,6 +1000,9 @@
                 }
               }
             }
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -1050,6 +1019,13 @@
     "schemas": {
       "contact": {
         "type": "object",
+        "required": [
+          "_id",
+          "name",
+          "phoneNumber",
+          "contactType",
+          "userId"
+        ],
         "properties": {
           "_id": {
             "type": "string",
@@ -1093,12 +1069,7 @@
             "format": "date-time",
             "example": "2023-10-01T12:00:00.000Z"
           }
-        },
-        "required": [
-          "status",
-          "message",
-          "data"
-        ]
+        }
       }
     },
     "responses": {
@@ -1157,6 +1128,45 @@
                     "message": {
                       "type": "string",
                       "example": "Contact not found"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "status",
+                "message",
+                "data"
+              ]
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Contact not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 500
+                },
+                "message": {
+                  "type": "string",
+                  "example": "InternalServerError"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "errorType": {
+                      "type": "string",
+                      "example": "general",
+                      "description": "Type of error ('upload' for file upload issues, 'general' for other server errors)"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Internal server error"
                     }
                   }
                 }

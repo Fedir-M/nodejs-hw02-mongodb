@@ -44,6 +44,7 @@ requestBody:
             example: false
           photo:
             type: string
+            format: binary
             description: An optional photo file for the contact (image file, e.g., JPEG, PNG, max size depends on server configuration).
         required:
           - name
@@ -95,7 +96,7 @@ responses:
   '401':
     $ref: ../../components/responses/401.yaml
   '500':
-    description: Server error during file upload
+    description: Server error during file upload or internal server error.
     content:
       application/json:
         schema:
@@ -110,6 +111,10 @@ responses:
             data:
               type: object
               properties:
+                errorType:
+                  type: string
+                  example: upload
+                  description: Type of error ('upload' for file upload issues, 'general' for other server errors)
                 message:
                   type: string
                   example: Failed to upload file to Cloudinary

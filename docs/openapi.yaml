@@ -12,7 +12,8 @@ tags:
   - name: auth
     description: Auth operations
 servers:
-  - url: https://api.mycontacts.com
+  - url: https://nodejs-hw02-mongodb.onrender.com
+    # - url: https://api.mycontacts.com
     description: Local development server. API server (placeholder for documentation).
 
 paths:

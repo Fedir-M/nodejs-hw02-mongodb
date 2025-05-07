@@ -51,6 +51,7 @@ requestBody:
             example: true
           photo:
             type: string
+            format: binary
             description: An optional photo file for the contact (image file, JPEG, PNG, max size depends on server configuration).
 responses:
   '200':
@@ -67,52 +68,7 @@ responses:
               type: string
               example: Successfully patched a contact!
             data:
-              type: object
-              properties:
-                _id:
-                  type: string
-                  example: 680e8cc96c3d5cf65c53314c
-                name:
-                  type: string
-                  example: Michael Updated
-                phoneNumber:
-                  type: string
-                  example: +1112233
-                email:
-                  type: string
-                  example: michael@example.com
-                contactType:
-                  type: string
-                  enum: [work, home, personal]
-                  example: work
-                userId:
-                  type: string
-                  example: 680be1cd4f1b271258c1c1ac
-                photo:
-                  type: string
-                  # type: [string, null]
-                  # nullable: true
-                  example: https://res.cloudinary.com/dlhomxhqd/image/upload/v1745784098/contacts-photos/vnro8p9dmnmiftqae6dk.png
-                isFavourite:
-                  type: boolean
-                  example: true
-                createdAt:
-                  type: string
-                  format: date-time
-                  example: 2023-10-01T12:00:00.000Z
-                updatedAt:
-                  type: string
-                  format: date-time
-                  example: 2023-10-01T12:30:00.000Z
-              required:
-                - _id
-                - name
-                - phoneNumber
-                - contactType
-                - userId
-                - isFavourite
-                - createdAt
-                - updatedAt
+              $ref: ../../../components/schemas/contact.yaml
           required:
             - status
             - message
@@ -144,3 +100,5 @@ responses:
     $ref: ../../../components/responses/401.yaml
   '404':
     $ref: ../../../components/responses/404.yaml
+  '500':
+    $ref: ../../../components/responses/500.yaml
