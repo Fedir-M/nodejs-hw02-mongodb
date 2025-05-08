@@ -1,0 +1,47 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: nodejs-hw02-mongodb
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: API for managing user contacts.
+tags:
+  - name: contacts
+    description: Operations connecting with my contacts
+  - name: auth
+    description: Auth operations
+servers:
+  - url: https://nodejs-hw02-mongodb.onrender.com
+    # - url: https://api.mycontacts.com
+    description: Local development server. API server (placeholder for documentation).
+
+paths:
+  /contacts:
+    get:
+      $ref: '../swagger/paths/contacts/get.yaml'
+    post:
+      $ref: '../swagger/paths/contacts/post.yaml'
+  # ===================================================
+  /contacts/{id}:
+    get:
+      $ref: '../swagger/paths/contacts/{id}/get.yaml'
+    patch:
+      $ref: '../swagger/paths/contacts/{id}/patch.yaml'
+    delete:
+      $ref: '../swagger/paths/contacts/{id}/delete.yaml'
+    # ===================================================
+  /auth/register:
+    post:
+      $ref: '../swagger/paths/auth/auth-register.yaml'
+  /auth/login:
+    post:
+      $ref: '../swagger/paths/auth/auth-login.yaml'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+      # updated

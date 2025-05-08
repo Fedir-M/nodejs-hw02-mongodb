@@ -1,0 +1,124 @@
+tags:
+  - contacts
+summary: Create a new contact
+operationId: createContact
+description: Creates a new contact for the authenticated user. Requires a multipart form with contact details and an optional photo file. The request body is validated to ensure required fields (name, phoneNumber, contactType) and follow format rules. The contact is associated with the user via their user ID.
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            minLength: 3
+            maxLength: 20
+            description: The name of the contact. Must be a string of 3 to 20 characters.
+            example: Michael NotHidden
+          phoneNumber:
+            type: string
+            minLength: 3
+            maxLength: 20
+            description: The phone number of the contact. Must be a string of 3 to 20 characters.
+            example: +1112233
+          email:
+            type: string
+            format: email
+            minLength: 3
+            maxLength: 20
+            description: The email address of the contact (optional). Must be a valid email address of 3 to 20 characters if provided.
+            example: michael@example.com
+          contactType:
+            type: string
+            enum: [work, home, personal]
+            minLength: 3
+            maxLength: 20
+            description: The type of contact. Must be one of 'work', 'home', or 'personal'.
+            example: personal
+          isFavourite:
+            type: boolean
+            description: Whether the contact is marked as favorite (optional, defaults to false).
+            example: false
+          photo:
+            type: string
+            format: binary
+            description: An optional photo file for the contact (image file, e.g., JPEG, PNG, max size depends on server configuration).
+        required:
+          - name
+          - phoneNumber
+          - contactType
+responses:
+  '201':
+    description: Contact successfully created
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: Successfully created a contact!
+            data:
+              $ref: ../../components/schemas/contact.yaml
+          required:
+            - status
+            - message
+            - data
+  '400':
+    description: Invalid request data or file upload error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 400
+            message:
+              type: string
+              example: BadRequestError
+            data:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: 'Validation failed: name must be at least 3 characters long'
+          required:
+            - status
+            - message
+            - data
+  '401':
+    $ref: ../../components/responses/401.yaml
+  '500':
+    description: Server error during file upload or internal server error.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 500
+            message:
+              type: string
+              example: InternalServerError
+            data:
+              type: object
+              properties:
+                errorType:
+                  type: string
+                  example: upload
+                  description: Type of error ('upload' for file upload issues, 'general' for other server errors)
+                message:
+                  type: string
+                  example: Failed to upload file to Cloudinary
+          required:
+            - status
+            - message
+            - data

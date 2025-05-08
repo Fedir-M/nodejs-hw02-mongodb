@@ -1,0 +1,104 @@
+tags:
+  - contacts
+summary: Update a contact by ID
+operationId: updateContact
+description: Updates a contact by its ID for the authenticated user. The contact must belong to the user. Accepts a multipart form with optional contact details and an optional photo file. Fields are validated to meet length requirements (3 – 20 characters). At least one field is recommended to ensure an update occurs.
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: id
+    schema:
+      type: string
+    required: true
+    description: The ID of the contact to update (e.g., 680e8cc96c3d5cf65c53314c).
+requestBody:
+  required: false
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            minLength: 3
+            maxLength: 20
+            description: The name of the contact (optional). Must be a string of 3 to 20 characters if provided.
+            example: Michael2
+          phoneNumber:
+            type: string
+            minLength: 3
+            maxLength: 20
+            description: The phone number of the contact (optional). Must be a string of 3 to 20 characters if provided.
+            example: +1112233
+          email:
+            type: string
+            format: email
+            minLength: 3
+            maxLength: 20
+            description: The email address of the contact (optional). Must be a valid email address of 3 to 20 characters if provided.
+            example: michael.updated@example.com
+          contactType:
+            type: string
+            enum: [work, home, personal]
+            minLength: 3
+            maxLength: 20
+            description: The type of contact (optional). Must be one of 'work', 'home', or 'personal' if provided.
+            example: work
+          isFavourite:
+            type: boolean
+            description: Whether the contact is marked as favorite (optional).
+            example: true
+          photo:
+            type: string
+            format: binary
+            description: An optional photo file for the contact (image file, JPEG, PNG, max size depends on server configuration).
+responses:
+  '200':
+    description: Contact successfully updated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully patched a contact!
+            data:
+              $ref: ../../../components/schemas/contact.yaml
+          required:
+            - status
+            - message
+            - data
+  '400':
+    description: Invalid contact ID or request data
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 400
+            message:
+              type: string
+              example: BadRequestError
+            data:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: 'Validation failed: name must be at least 3 characters long'
+          required:
+            - status
+            - message
+            - data
+  '401':
+    $ref: ../../../components/responses/401.yaml
+  '404':
+    $ref: ../../../components/responses/404.yaml
+  '500':
+    $ref: ../../../components/responses/500.yaml
