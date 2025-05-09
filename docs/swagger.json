@@ -11,7 +11,10 @@
   },
   "servers": [
     {
-      "url": "https://nodejs-hw02-mongodb.onrender.com",
+      "url": "https://nodejs-hw02-mongodb.onrender.com"
+    },
+    {
+      "url": "http://localhost:3000",
       "description": "Local development server. API server (placeholder for documentation)."
     }
   ],
@@ -50,7 +53,7 @@
             },
             "required": false,
             "description": "The page number for pagination.",
-            "example": 8
+            "example": 1
           },
           {
             "in": "query",
@@ -1043,7 +1046,7 @@
             "type": "string",
             "example": "michael@example.com"
           },
-          "contactType": {
+          "type": {
             "type": "string",
             "example": "personal"
           },

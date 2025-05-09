@@ -19,7 +19,7 @@ properties:
   email:
     type: string
     example: michael@example.com
-  contactType:
+  type:
     type: string
     example: personal
   userId:
