@@ -14,7 +14,7 @@ parameters:
       default: 1
     required: false
     description: The page number for pagination.
-    example: 1, 2, 3
+    example: 8
   - in: query
     name: perPage
     schema:
@@ -23,7 +23,7 @@ parameters:
       default: 10
     required: false
     description: The number of contacts per page.
-    example: 10, 20
+    example: 10
   - in: query
     name: sortBy
     schema:
@@ -43,7 +43,7 @@ parameters:
     description: The sort order (ascending or descending).
     example: asc
   - in: query
-    name: contactType
+    name: type
     schema:
       type: string
       enum: [personal, work, home]

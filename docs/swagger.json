@@ -50,7 +50,7 @@
             },
             "required": false,
             "description": "The page number for pagination.",
-            "example": "1, 2, 3"
+            "example": 8
           },
           {
             "in": "query",
@@ -62,7 +62,7 @@
             },
             "required": false,
             "description": "The number of contacts per page.",
-            "example": "10, 20"
+            "example": 10
           },
           {
             "in": "query",
@@ -95,7 +95,7 @@
           },
           {
             "in": "query",
-            "name": "contactType",
+            "name": "type",
             "schema": {
               "type": "string",
               "enum": [
