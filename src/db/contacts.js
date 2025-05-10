@@ -1,6 +1,7 @@
 import {Schema, model} from "mongoose";
 
-const movieSchema = new Schema({
+
+const contactSchema = new Schema({
     name: {
         type: String,
         required: true,
@@ -23,7 +24,6 @@ const movieSchema = new Schema({
     contactType: {
         type: String,
         enum: ['work', 'home', 'personal'],
-        required: true,
         default: 'personal',
     },
  
@@ -31,7 +31,9 @@ const movieSchema = new Schema({
 },
 {
     timestamps: true,
+    versionKey: false,
 },)
 
-const ContactsCollection = model('Contacts', movieSchema);
+
+const ContactsCollection = model('contact', contactSchema);
 export default ContactsCollection;
